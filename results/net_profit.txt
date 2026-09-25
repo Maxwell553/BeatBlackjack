@@ -1,0 +1,8 @@
+NEURAL NET + HI-LO
+Held-out action agreement with derived play: 100.000%
+Holdout agreement during flat play: 260160/260161
+True-count slope +0.00503 per count (p=0.0388)
+Insurance threshold at true count None
+flat     -0.00225  (95% CI -0.00723 to +0.00273)  p=0.3751
+spread   +0.01992  (95% CI -0.00260 to +0.04245)  p=0.0830
+wong     +0.02630  (95% CI +0.00399 to +0.04861)  p=0.0209

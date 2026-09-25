@@ -1,0 +1,7 @@
+FLAT BET, SAME HOLDOUT, EVERY HAND
+hands 2000000
+teacher minus probability +0.00147  (95% CI +0.00101 to +0.00194) p=5.64e-10
+network agreement with neutral play 2522567/2604143
+network profit -0.00328  (95% CI -0.00485 to -0.00171) p=0.0000
+probability profit -0.00456  (95% CI -0.00612 to -0.00299) p=1.09e-08
+network minus probability +0.00128  (95% CI +0.00090 to +0.00165) z=6.68 p=2.47e-11

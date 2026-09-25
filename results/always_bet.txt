@@ -1,0 +1,7 @@
+EVERY HAND BET AT LEAST 1
+hands 1000000 minimum bet 1.0
+kelly fraction 1.00 cap 22.20
+mean bet 2.590
+network profit +0.03049  (95% CI +0.02007 to +0.04092) p=9.90e-09
+full-Kelly exact profit +0.01606  (95% CI +0.00834 to +0.02379) p=0.0000
+network minus exact +0.01443  (95% CI +0.00963 to +0.01923) z=5.89 p=3.84e-09

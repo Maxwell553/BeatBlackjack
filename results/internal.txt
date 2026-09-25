@@ -1,0 +1,9 @@
+NETWORK MLP VALUE AND INSURANCE
+hands 1000000 value fit hands 1500000
+kelly fraction 0.75 cap 16.65
+full Kelly at or above 12 on 10.0% of positive-edge holdout hands
+mean bet 1.383 hands bet 271762
+network profit +0.02784  (95% CI +0.02015 to +0.03552) z=7.10 p=1.23e-12
+network spread 3.9398
+full-Kelly exact profit +0.01606  (95% CI +0.00834 to +0.02379) p=0.0000
+full-Kelly exact spread 3.9933

@@ -1,0 +1,46 @@
+BLACKJACK SOLVER REPORT
+6 decks, 75% penetration, S17, 3:2, DAS, late surrender, split to 4, no hit/resplit aces
+Play is one-step Q-learning on the hand and the dealer upcard. A hit bootstraps the best next action; stand, double, split, and surrender use the realized return.
+Insurance is taken at a true count only when the average insurance return in that count bin is positive.
+Bet size is full Kelly on a bankroll of 800 units, capped at 12, from a linear fit of profit on the pre-deal true count. The fit is frozen before the holdout.
+The exact column is infinite-deck backward induction under the same rules. It is an evaluator, not a training label.
+Standard errors are cluster-robust by shoe. Tests are two-sided normal approximations, which the hand counts support.
+Samples: 80000 training hands, 100000 calibration hands, 500000 holdout hands.
+
+Learning curve (flat bet, same deals at every checkpoint)
+  after      0 hands   -0.64300  (95% CI -0.66001 to -0.62599)   p vs 0 = 0.00e+00
+  after  20000 hands   -0.10331  (95% CI -0.12754 to -0.07909)   p vs 0 = 6.33e-17
+  after  40000 hands   -0.07487  (95% CI -0.09735 to -0.05240)   p vs 0 = 6.59e-11
+  after  60000 hands   -0.08912  (95% CI -0.11077 to -0.06748)   p vs 0 = 7.03e-16
+  after  80000 hands   -0.09137  (95% CI -0.11049 to -0.07226)   p vs 0 = 7.19e-21
+Slope of profit on hands trained: +5.587e-06 per hand  (95% CI +5.096e-06 to +6.078e-06, p=4.50e-110)
+Last checkpoint minus first, paired: +0.55163  (95% CI +0.53072 to +0.57253)  p=0.00e+00
+
+Holdout edges
+  untrained               per hand -0.64299  (95% CI -0.64516 to -0.64082) p=0.00e+00   per unit posted -0.64299  (95% CI -0.64516 to -0.64082) p=0.00e+00   mean bet 1.00
+  trained_flat            per hand -0.08544  (95% CI -0.08795 to -0.08294) p=0.00e+00   per unit posted -0.08544  (95% CI -0.08795 to -0.08294) p=0.00e+00   mean bet 1.00
+  exact_flat              per hand -0.00192  (95% CI -0.00509 to +0.00125) p=0.2346   per unit posted -0.00192  (95% CI -0.00509 to +0.00125) p=0.2346   mean bet 1.00
+  trained_spread          per hand -0.08532  (95% CI -0.08785 to -0.08279) p=0.00e+00   per unit posted -0.08509  (95% CI -0.08761 to -0.08257) p=0.00e+00   mean bet 1.00
+  trained_wong            per hand +0.00015  (95% CI -0.00022 to +0.00053) p=0.4217   per unit posted +0.04847  (95% CI -0.07099 to +0.16792) p=0.4265   mean bet 0.00
+  exact_spread            per hand +0.04066  (95% CI +0.02461 to +0.05671) p=6.86e-07   per unit posted +0.01213  (95% CI +0.00734 to +0.01692) p=6.87e-07   mean bet 3.35
+  exact_wong              per hand +0.04632  (95% CI +0.03046 to +0.06217) p=1.03e-08   per unit posted +0.01683  (95% CI +0.01107 to +0.02259) p=1.05e-08   mean bet 2.75
+
+Paired comparisons on the holdout deals
+  Trained flat minus untrained flat: +0.55755  (95% CI +0.55482 to +0.56028)  z=400.41  p=0.00e+00
+  Trained flat minus exact flat: -0.08352  (95% CI -0.08585 to -0.08119)  z=-70.13  p=0.00e+00
+  Count spread minus trained flat: +0.00013  (95% CI -0.00020 to +0.00045)  z=0.75  p=0.4533
+  Sit-out spread minus trained flat: +0.08560  (95% CI +0.08307 to +0.08812)  z=66.45  p=0.00e+00
+  Trained spread minus exact spread: -0.12598  (95% CI -0.14104 to -0.11092)  z=-16.39  p=2.10e-60
+  Exact play with sit-out bets minus exact flat: +0.04824  (95% CI +0.03377 to +0.06271)  z=6.54  p=6.35e-11
+  Exact play with count spread minus exact flat: +0.04259  (95% CI +0.02834 to +0.05684)  z=5.86  p=4.70e-09
+
+True-count slope on calibration (exact play): +0.00925 per true count  (95% CI +0.00634 to +0.01216, p=4.57e-10)
+True-count slope on calibration (flat trained play): +0.00817 per true count  (95% CI +0.00587 to +0.01046, p=2.97e-12)
+Action agreement with exact strategy: 354103/612302 = 57.831%  (Wilson 95% CI 57.708% to 57.955%)
+Agreement where the best action leads by more than 0.02 EV: 339420/566238 = 59.943%  (Wilson 95% CI 59.815% to 60.071%)
+Mean exact-EV loss per decision at |true count| < 1: 0.06733
+Insurance agreement with ten-density > 1/3: 34928/38551 = 90.602%  (Wilson 95% CI 90.307% to 90.889%); learned take-threshold at true count None
+
+Reading the result: a flat basic-strategy bettor is supposed to lose a fraction of a percent.
+A counter's edge shows up as a positive slope of profit on the true count, and as a higher profit when the bet spread is allowed to use that slope.
+Matching the exact strategy means the paired gap versus exact play is near zero and decisive-action agreement is high.

@@ -1,0 +1,9 @@
+SHARED HI-LO BETS, SAME HOLDOUT, EVERY HAND
+hands 2000000
+bet edge -0.00155 +0.00487 per true count, variance 1.302, bankroll 800, max bet 12
+mean bet 2.473
+insurance taken by both at true count >= 3
+network agreement with neutral play 2522567/2604143
+network profit +0.02160  (95% CI +0.01559 to +0.02761) p=1.85e-12
+probability profit +0.01716  (95% CI +0.01128 to +0.02304) p=1.04e-08
+network minus probability +0.00445  (95% CI +0.00265 to +0.00624) z=4.87 p=0.0000

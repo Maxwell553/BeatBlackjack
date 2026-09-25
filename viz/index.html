@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Before and after</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --felt: #0f3d32;
+    --felt-deep: #0a2a23;
+    --brass: #c6a56a;
+    --ivory: #f4efe6;
+    --ink: #1c1915;
+    --loss: #e7b2a8;
+    --win: #d5e6c8;
+    --mute: rgba(244, 239, 230, 0.62);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background:
+      radial-gradient(1200px 700px at 50% -10%, #1a2420 0%, transparent 55%),
+      #090b0a;
+    color: var(--ivory);
+    font-family: Outfit, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 28px 40px 8px;
+  }
+  header.top h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 500;
+    font-size: 42px;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+  header.top p { margin: 4px 0 0; color: var(--mute); font-size: 13px; }
+  .controls { display: flex; gap: 10px; align-items: center; }
+  button {
+    background: transparent;
+    color: var(--ivory);
+    border: 1px solid rgba(198, 165, 106, 0.55);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  button:hover { background: rgba(198, 165, 106, 0.12); }
+  .hand-no { color: var(--brass); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; }
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    padding: 12px 24px 24px;
+    height: calc(100vh - 108px);
+  }
+  .table {
+    position: relative;
+    border-radius: 28px;
+    background:
+      radial-gradient(90% 80% at 50% 40%, rgba(255,255,255,0.05), transparent 60%),
+      linear-gradient(180deg, #14614e 0%, var(--felt) 42%, var(--felt-deep) 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(198, 165, 106, 0.35),
+      inset 0 0 80px rgba(0,0,0,0.28),
+      0 24px 60px rgba(0,0,0,0.35);
+    overflow: hidden;
+    min-height: 0;
+  }
+  .table header {
+    display: flex;
+    justify-content: space-between;
+    padding: 22px 26px 0;
+    align-items: baseline;
+  }
+  .table header strong {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 500;
+  }
+  .bank { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+  .bank b { font-weight: 400; color: var(--brass); }
+  .felt { position: relative; height: calc(100% - 70px); }
+  .row { position: absolute; left: 24px; right: 24px; display: flex; justify-content: center; gap: 36px; }
+  .dealer { top: 22px; }
+  .player { bottom: 150px; }
+  .spot {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    border: 1px dashed rgba(198, 165, 106, 0.7);
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
+  .hand-col { display: flex; gap: 8px; align-items: flex-end; }
+  .card {
+    width: 74px;
+    height: 106px;
+    border-radius: 8px;
+    background: var(--ivory);
+    color: var(--ink);
+    position: relative;
+    box-shadow: 0 10px 18px rgba(0,0,0,0.28);
+    transform-origin: 50% 80%;
+    animation: deal 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .card .r { position: absolute; top: 8px; left: 8px; font-family: "Cormorant Garamond", serif; font-size: 22px; line-height: 1; }
+  .card .s { position: absolute; inset: 0; display: grid; place-items: center; font-size: 28px; }
+  .card.red { color: #8e2f2a; }
+  .card.back {
+    background:
+      repeating-linear-gradient(135deg, #1d3a4a 0 6px, #16303d 6px 12px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .card.flip { animation: flip 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  @keyframes deal {
+    from { opacity: 0; transform: translateY(-36px) rotate(-6deg) scale(0.92); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes flip {
+    0% { transform: rotateY(90deg); }
+    100% { transform: rotateY(0deg); }
+  }
+  .spot .amt {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 26px;
+    line-height: 1;
+  }
+  .spot small { display: block; color: var(--mute); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .toast {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 40px;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    pointer-events: none;
+    text-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+  .toast.show { animation: rise 0.9s ease both; }
+  @keyframes rise {
+    0% { opacity: 0; transform: translate(-50%, -40%); }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -70%); }
+  }
+  .toast.good { color: var(--win); }
+  .toast.bad { color: var(--loss); }
+  @media (max-width: 860px) {
+    main { grid-template-columns: 1fr; height: auto; }
+    .table { min-height: 460px; }
+    header.top { padding: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card, .toast.show { animation-duration: 0.01ms; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Before and after</h1>
+    <p>Same shoes. The left bot bets one and plays untrained. The right bot bets the shoe and plays the trained hand.</p>
+  </div>
+  <div class="controls">
+    <span class="hand-no" id="count">Hand 1</span>
+    <button id="replay" type="button">Replay</button>
+  </div>
+</header>
+<main>
+  <section class="table" id="before">
+    <header><strong>Before</strong><span class="bank">Bank <b data-bank>800</b></span></header>
+    <div class="felt">
+      <div class="row dealer" data-dealer></div>
+      <div class="row player" data-player></div>
+      <div class="toast" data-toast></div>
+      <div class="spot"><div><div class="amt" data-bet>1</div><small data-note>flat</small></div></div>
+    </div>
+  </section>
+  <section class="table" id="after">
+    <header><strong>After</strong><span class="bank">Bank <b data-bank>800</b></span></header>
+    <div class="felt">
+      <div class="row dealer" data-dealer></div>
+      <div class="row player" data-player></div>
+      <div class="toast" data-toast></div>
+      <div class="spot"><div><div class="amt" data-bet>1</div><small data-note>edge</small></div></div>
+    </div>
+  </section>
+</main>
+<script>
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const pace = reduced ? 40 : 1;
+
+function face(rank, n) {
+  const suits = ["♠", "♥", "♦", "♣"];
+  const suit = suits[n % 4];
+  let label = rank === 1 ? "A" : String(rank);
+  if (rank === 10) label = ["10", "J", "Q", "K"][n % 4];
+  return { label, suit, red: suit === "♥" || suit === "♦" };
+}
+
+function cardEl(rank, n, back) {
+  const el = document.createElement("div");
+  el.className = "card" + (back ? " back" : "");
+  if (!back) {
+    const f = face(rank, n);
+    if (f.red) el.classList.add("red");
+    el.innerHTML = `<span class="r">${f.label}</span><span class="s">${f.suit}</span>`;
+  }
+  return el;
+}
+
+function Side(root) {
+  this.root = root;
+  this.dealer = root.querySelector("[data-dealer]");
+  this.player = root.querySelector("[data-player]");
+  this.toast = root.querySelector("[data-toast]");
+  this.bet = root.querySelector("[data-bet]");
+  this.note = root.querySelector("[data-note]");
+  this.bankEl = root.querySelector("[data-bank]");
+  this.bank = 800;
+  this.n = 0;
+}
+
+Side.prototype.clear = function () {
+  this.dealer.innerHTML = "";
+  this.player.innerHTML = "";
+  this.toast.className = "toast";
+  this.cols = [];
+};
+
+Side.prototype.addCard = function (row, rank, back) {
+  const el = cardEl(rank, this.n++, back);
+  row.appendChild(el);
+  return el;
+};
+
+Side.prototype.play = async function (round) {
+  this.clear();
+  this.bet.textContent = round.bet.toFixed(round.bet >= 10 ? 0 : 1);
+  this.note.textContent = round.edge ? `edge ${(round.edge * 100).toFixed(1)}%` : "flat 1";
+  const dcol = document.createElement("div");
+  dcol.className = "hand-col";
+  this.dealer.appendChild(dcol);
+  const pcol = document.createElement("div");
+  pcol.className = "hand-col";
+  this.player.appendChild(pcol);
+  this.cols = [pcol];
+  await sleep(180 * pace);
+  this.addCard(pcol, round.player[0]);
+  await sleep(160 * pace);
+  this.addCard(dcol, round.dealerUp);
+  await sleep(160 * pace);
+  this.addCard(pcol, round.player[1]);
+  await sleep(160 * pace);
+  const hole = this.addCard(dcol, round.hole, true);
+  if (round.insurance) {
+    this.flash("Insurance", round.profit >= 0);
+    await sleep(500 * pace);
+  }
+  for (const step of round.steps) {
+    if (step.op === "dealer") {
+      this.addCard(dcol, step.card);
+      await sleep(220 * pace);
+      continue;
+    }
+    const col = this.cols[step.hand] || pcol;
+    if (step.op === "split") {
+      this.flash("Split", true);
+      const rank = round.player[0];
+      col.innerHTML = "";
+      this.addCard(col, rank);
+      this.addCard(col, step.cards[0]);
+      const extra = document.createElement("div");
+      extra.className = "hand-col";
+      this.addCard(extra, rank);
+      this.addCard(extra, step.cards[1]);
+      this.player.appendChild(extra);
+      this.cols.splice(step.hand, 1, col, extra);
+      await sleep(420 * pace);
+      continue;
+    }
+    const word = step.op[0].toUpperCase() + step.op.slice(1);
+    this.flash(word, step.op !== "surrender");
+    if (step.card) this.addCard(col, step.card);
+    await sleep(380 * pace);
+  }
+  hole.classList.remove("back");
+  const f = face(round.hole, this.n++);
+  if (f.red) hole.classList.add("red");
+  hole.classList.add("flip");
+  hole.innerHTML = `<span class="r">${f.label}</span><span class="s">${f.suit}</span>`;
+  await sleep(420 * pace);
+  const good = round.profit > 0.05;
+  const bad = round.profit < -0.05;
+  this.flash(round.label, good, bad);
+  this.bank += round.profit;
+  this.bankEl.textContent = this.bank.toFixed(0);
+  await sleep(900 * pace);
+};
+
+Side.prototype.flash = function (text, good, bad) {
+  this.toast.textContent = text;
+  this.toast.className = "toast show" + (bad ? " bad" : good ? " good" : "");
+};
+
+async function run(data) {
+  const before = new Side(document.getElementById("before"));
+  const after = new Side(document.getElementById("after"));
+  const count = document.getElementById("count");
+  let cancelled = false;
+  document.getElementById("replay").onclick = () => { cancelled = true; location.reload(); };
+  for (let i = 0; i < data.pairs.length; i++) {
+    if (cancelled) return;
+    count.textContent = `Hand ${i + 1} of ${data.pairs.length}`;
+    await Promise.all([
+      before.play(data.pairs[i].before),
+      after.play(data.pairs[i].after),
+    ]);
+    await sleep(350 * pace);
+  }
+  count.textContent = "Again";
+  await sleep(600);
+  if (!cancelled) run(data);
+}
+
+fetch("replay.json").then((r) => r.json()).then(run);
+</script>
+</body>
+</html>
